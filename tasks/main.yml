@@ -1,0 +1,5 @@
+---
+# tasks file for lineguy.example
+
+- name: Including task install.yml
+  include_tasks: install.yml

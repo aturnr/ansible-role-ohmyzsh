@@ -1,0 +1,26 @@
+---
+
+- name: Install custom plugins
+  git:
+    repo: "{{ plugin.repo }}"
+    dest: "/home/{{ user.username }}/.oh-my-zsh/custom/plugins/{{ plugin.name }}"
+    version: "{{ plugin.version | default(omit) }}"
+    update: "{{ plugin.update | default(omit) | bool }}"
+  with_items: "{{ user.oh_my_zsh.custom_plugins | default(ohmyzsh_default_custom_plugins) }}"
+  when: user.oh_my_zsh.custom_plugins is defined or ohmyzsh_default_custom_plugins is defined
+  loop_control:
+    loop_var: plugin
+
+- name: Set permissions for plugins
+  become: yes
+  file:
+    path: '/home/{{ user.username }}/.oh-my-zsh/custom/plugins/{{ plugin.name }}'
+    owner: "{{ user.username }}"
+    group: "{{ user.username }}"
+    mode: '0750'
+  with_items: "{{ user.oh_my_zsh.custom_plugins | default(ohmyzsh_default_custom_plugins) }}"
+  when: user.oh_my_zsh.custom_plugins is defined or ohmyzsh_default_custom_plugins is defined
+  loop_control:
+    loop_var: plugin
+
+...

@@ -1,0 +1,53 @@
+---
+
+ - name: Register stats of the .zshrc
+   stat:
+     path: "/home/{{ user }}/.zshrc"
+   register: zrc
+
+ - name: Test .zshrc exists
+   fail:
+     msg: ".zshrc doesn't exist"
+   when: zrc.stat.exists is defined and not zrc.stat.exists
+
+ - name: Test .zshrc is a file
+   fail:
+     msg: ".zshrc isn't a file"
+   when: zrc.stat.isfile is defined and not zrc.stat.isfile
+
+ - name: Test .zshrc directory mode
+   fail:
+     msg: ".zshrc mode is not 0640"
+   when: zrc.stat.mode is defined and not zrc.stat.mode == "0640"
+
+ - name: Test .zshrc directory owner
+   fail:
+     msg: ".zshrc owner is not {{ user }}"
+   when: zrc.stat.owner is defined and not zrc.stat.owner == user
+
+ - name: Test .zshrc directory group
+   fail:
+     msg: ".zshrc group is not {{ user }}"
+   when: zrc.stat.group is defined and not zrc.stat.group == user
+
+ - name: Register .zshrc can be sourced
+   become: true
+   become_user: "{{ user }}"
+   command: 'zsh -c ". /home/{{ user }}/.zshrc"'
+   register: zrc
+   check_mode: no
+   ignore_errors: yes
+   changed_when: no
+
+ - name: Test .zshrc can be sourced
+   fail: 
+     msg: ".zshrc contains errors"
+   when: not zrc.rc == 0
+
+ - name: Include pattern tests
+   include_tasks: zshrc_pattern.yml
+   with_items: "{{ patterns }}"
+   loop_control:
+     loop_var: pattern
+
+...

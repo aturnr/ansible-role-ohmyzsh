@@ -1,0 +1,12 @@
+---
+- name: Prepare
+  hosts: all
+  tasks:
+    - name: Create users
+      user:
+        name: "{{ item }}"
+        comment: "{{ item }}"
+      with_items:
+        - user1
+        - user2
+        - user3

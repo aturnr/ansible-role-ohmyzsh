@@ -1,0 +1,49 @@
+---
+# Test custom theme
+
+ - name: "Register stats of {{ theme }}"
+   stat:
+     path: "/home/{{ user }}/.oh-my-zsh/custom/themes/{{ theme }}"
+   register: ts
+
+ - name: "Test {{ theme }} exists"
+   fail:
+     msg: "{{ theme }} doesn't exist"
+   when: ts.stat.exists is defined and not ts.stat.exists
+
+ - name: "Test {{ theme }} is a directory"
+   fail:
+     msg: "{{ theme }] isn't a directory"
+   when: ts.stat.isdir is defined and not ts.stat.isdir
+
+ - name: "Test {{ theme }} directory mode"
+   fail:
+     msg: "{{ theme }} mode is not 0755"
+   when: ts.stat.mode is defined and not ts.stat.mode == "0750"
+
+ - name: "Test {{ theme }} directory owner"
+   fail:
+     msg: "{{ theme }} owner is not {{ user }}"
+   when: ts.stat.owner is defined and not ts.stat.owner == user
+
+ - name: "Test {{ theme }} directory group"
+   fail:
+     msg: "{{ theme }} group is not {{ user }}"
+   when: ts.stat.group is defined and not ts.stat.group == user
+
+ - name: "Register stats of {{ theme }} link"
+   stat:
+     path: "/home/{{ user }}/.oh-my-zsh/themes/{{ theme }}.zsh-theme"
+   register: ts
+
+ - name: "Test {{ theme }} link exists"
+   fail:
+     msg: "{{ theme }} link doesn't exist"
+   when: ts.stat.exists is defined and not ts.stat.exists
+
+ - name: "Test {{ theme }} is a link"
+   fail:
+     msg: "{{ theme }} isn't a link"
+   when: ts.stat.isdir is defined and not ts.stat.islnk
+
+...

@@ -1,0 +1,60 @@
+---
+
+# Facts
+- name: Set user fact
+  set_fact:
+    user: 'user2'
+
+- name: Set patterns fact
+  set_fact:
+    patterns:
+      - 'ZSH_THEME="robbyrussell"'
+      - 'ZSH_THEME_RANDOM_CANDIDATES=( "agnoster" "robbyrussell" )'
+      - 'CASE_SENSITIVE="false"'
+      - 'HYPHEN_INSENSITIVE="false"'
+      - 'DISABLE_AUTO_UPDATE="false"'
+      - 'DISABLE_UPDATE_PROMPT="false"'
+      - 'export UPDATE_ZSH_DAYS=13'
+      - 'DISABLE_MAGIC_FUNCTIONS="false"'
+      - 'DISABLE_LS_COLORS="false"'
+      - 'DISABLE_AUTO_TITLE="false"'
+      - 'ENABLE_CORRECTION="false"'
+      - 'COMPLETION_WAITING_DOTS="false"'
+      - 'DISABLE_UNTRACKED_FILES_DIRTY="false"'
+      - 'HIST_STAMPS="mm/dd/yyyy"'
+      - 'ZSH_CUSTOM=$ZSH/custom'
+      - 'plugins=(git)'
+
+# Test default shell
+- name: Include shell tests
+  include_tasks: shell.yml
+  with_items:
+    - ":{{ user }}:/home/{{ user }}:/bin/zsh"
+  loop_control:
+    loop_var: pattern
+
+# Test .oh-my-zsh directory
+- name: Include config tests
+  include_tasks: config.yml
+
+# Test .zshrc config
+- name: Include config tests
+  include_tasks: config.yml
+
+# Test plugins
+- name: Include plugin tests
+  include_tasks: plugin.yml
+  with_items:
+    - k
+  loop_control:
+    loop_var: plugin
+
+# Test themes
+- name: Include theme tests
+  include_tasks: theme.yml
+  with_items:
+    - sobole 
+  loop_control:
+    loop_var: theme
+
+...

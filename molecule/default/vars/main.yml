@@ -1,0 +1,69 @@
+---
+
+ohmyzsh_users:
+  - username: user1
+    oh_my_zsh:
+      theme: cordial
+      theme_random_candidates:
+        - agnoster
+        - robbyrussell
+        - simple
+        - sunrise
+      plugins:
+        - docker
+        - ansible
+        - git
+        - zsh-syntax-highlighting
+        - zsh-completions
+      custom_plugins:
+        - name: zsh-syntax-highlighting
+          repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+          update: false
+          version: master
+        - name: zsh-completions
+          repo: https://github.com/zsh-users/zsh-completions
+          update: true
+          version: master
+      custom_themes:
+        - name: powerlevel9k
+          repo: https://github.com/bhilburn/powerlevel9k.git
+          update: false
+          version: master
+        - name: cordial
+          repo: https://github.com/stevelacy/cordial-zsh-theme
+          update: false
+          version: master
+      case_sensitive: true
+      hyphen_insensitive: true
+      disable_auto_update: true
+      disable_update_prompt: true
+      update_zsh_days: 30
+      disable_magic_functions: true
+      disable_ls_colors: true
+      disable_auto_title: true
+      enable_correction: true
+      completion_waiting_dots: true
+      disable_untracked_files_dirty: true
+      history_stamps: yyyy/mm/dd
+      zsh_custom: $ZSH/custom
+      user_configuration: |
+          # Example aliases
+          alias zshconfig="vim ~/.zshrc"
+          alias ohmyzsh="vim ~/.oh-my-zsh"
+  - username: user2
+    oh_my_zsh:
+      custom_plugins:
+        - name: k
+          repo: https://github.com/supercrabtree/k
+          update: false
+          version: master
+      custom_themes:
+        - name: sobole
+          repo: https://github.com/sobolevn/sobole-zsh-theme
+          update: false
+          version: master
+  - username: user3
+    oh_my_zsh:
+      install: false
+
+...

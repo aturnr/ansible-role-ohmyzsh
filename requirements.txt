@@ -1,0 +1,9 @@
+# Versions are pinned to prevent pypi releases arbitrarily breaking
+# tests with new APIs/semantics. We want to update versions deliberately.
+#
+flake8==3.9.1
+molecule==3.3.0
+molecule-docker==0.2.4
+yamllint===1.26.1
+ansible==2.10.5
+ansible-lint==5.0.7

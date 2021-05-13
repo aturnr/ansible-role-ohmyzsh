@@ -1,0 +1,33 @@
+---
+
+ - name: Register stats of the .oh-my-zsh
+   stat:
+     path: "/home/{{ user }}/.oh-my-zsh"
+   register: omz
+
+ - name: Test .oh-my-zsh exists
+   fail:
+     msg: ".oh-my-zsh doesn't exist"
+   when: omz.stat.exists is defined and not omz.stat.exists
+
+ - name: Test .oh-my-zsh is a directory
+   fail:
+     msg: ".oh-my-zsh isn't a directory"
+   when: omz.stat.isdir is defined and not omz.stat.isdir
+
+ - name: Test .oh-my-zsh directory mode
+   fail:
+     msg: ".oh-my-zsh mode is not 0750"
+   when: omz.stat.mode is defined and not omz.stat.mode == "0750"
+
+ - name: Test .oh-my-zsh directory owner
+   fail:
+     msg: ".oh-my-zsh owner is not {{ user }}"
+   when: omz.stat.owner is defined and not omz.stat.owner == user
+
+ - name: Test .oh-my-zsh directory group
+   fail:
+     msg: ".oh-my.zsh group is not {{ user }}"
+   when: omz.stat.group is defined and not omz.stat.group == user
+
+...

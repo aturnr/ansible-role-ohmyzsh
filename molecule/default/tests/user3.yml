@@ -1,0 +1,38 @@
+---
+
+# Facts
+- name: Set user fact
+  set_fact:
+    user: 'user3'
+
+# Test default shell
+- name: Include shell tests
+  include_tasks: shell.yml
+  with_items:
+    - ":{{ user }}:/home/{{ user }}:/bin/sh"
+  loop_control:
+    loop_var: pattern
+
+# Test .oh-my-zsh directory
+- name: Register stats of the .oh-my-zsh
+  stat:
+    path: "/home/{{ user }}/.oh-my-zsh"
+  register: omz
+
+- name: Test .oh-my-zsh exists
+  fail:
+    msg: ".oh-my-zsh doesn't exist"
+  when: omz.stat.exists is defined and omz.stat.exists
+
+# Test .zshrc config
+- name: Register stats of the .zshrc
+  stat:
+    path: "/home/{{ user }}/.zshrc"
+  register: zrc
+
+- name: Test .zshrc exists
+  fail:
+    msg: ".zshrc doesn't exist"
+  when: zrc.stat.exists is defined and zrc.stat.exists
+
+...

@@ -1,0 +1,45 @@
+---
+
+language: python
+python: "3.9"
+
+services:
+  - docker
+
+before_install:
+  # Install python-pip
+  - "sudo apt update"
+  - "sudo apt install python-pip"
+
+install:
+  # Install dependancies
+  - "pip install -r requirements.txt"
+  # Check ansible version
+  - "ansible --version"
+  # Check molecule version
+  - "molecule --version"
+
+stages:
+  - name: Testing
+    if: "(type = pull_request AND tag IS blank)"
+  - name: Release
+    if: "(type = push AND branch = master)"
+
+jobs:
+  include:
+    - stage: Testing
+      name: Molecule Test (Default Secnerio)
+      script:
+        - "molecule test"
+#    - name: Molecule Test (Other Secnerio)
+#      script:
+#        - "molecule test --scenerio other"
+    - stage: Release
+      name: Release with new git tag
+      script:
+        - "./travis.sh --release"
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
+
+...

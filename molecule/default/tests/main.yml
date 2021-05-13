@@ -1,0 +1,10 @@
+---
+
+- name: Include user1 tests
+  include_tasks: user1.yml
+
+- name: Include user2 tests
+  include_tasks: user2.yml
+
+
+...

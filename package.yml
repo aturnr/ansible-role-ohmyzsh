@@ -1,0 +1,12 @@
+---
+
+name: ansible-role-ohmyzsh
+
+description: |
+  A ansible role to install and configure oh-my-zsh.
+
+version: 1.0.0
+
+change_log:
+  1.0.0:
+    - Inception of role.

@@ -1,0 +1,38 @@
+---
+
+- name: Install custom themes
+  git:
+    repo: "{{ theme.repo }}"
+    dest: "/home/{{ user.username }}/.oh-my-zsh/custom/themes/{{ theme.name }}"
+    version: "{{ theme.version | default(omit) }}"
+    update: "{{ theme.update | default(omit) | bool }}"
+  with_items: "{{ user.oh_my_zsh.custom_themes | default(ohmyzsh_default_custom_themes) }}"
+  when: user.oh_my_zsh.custom_themes is defined or ohmyzsh_default_custom_themes is defined
+  loop_control:
+    loop_var: theme
+
+- name: Set permissions for themes
+  become: yes
+  file:
+    path: '/home/{{ user.username }}/.oh-my-zsh/custom/themes/{{ theme.name }}'
+    owner: "{{ user.username }}"
+    group: "{{ user.username }}"
+    mode: '0750'
+  with_items: "{{ user.oh_my_zsh.custom_themes | default(ohmyzsh_default_custom_themes) }}"
+  when: user.oh_my_zsh.custom_themes is defined or ohmyzsh_default_custom_themes is defined
+  loop_control:
+    loop_var: theme
+
+- name: Link custom themes to ohmyzsh directory
+  file:
+    src: "/home/{{ user.username }}/.oh-my-zsh/custom/themes/{{ theme.name }}/{{ theme.name }}.zsh-theme"
+    dest: "/home/{{ user.username }}/.oh-my-zsh/themes/{{ theme.name }}.zsh-theme"
+    owner: "{{ user.username }}"
+    group: "{{ user.username }}"
+    state: link
+  with_items: "{{ user.oh_my_zsh.custom_themes | default(ohmyzsh_default_custom_themes) }}"
+  when: user.oh_my_zsh.custom_themes is defined or ohmyzsh_default_custom_themes is defined
+  loop_control:
+    loop_var: theme
+
+...

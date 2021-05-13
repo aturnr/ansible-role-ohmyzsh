@@ -1,0 +1,10 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: Including vars main.yml
+      include_vars: vars/main.yml
+
+    - name: "Include ansible-role-ohmyzsh"
+      include_role:
+        name: "ansible-role-ohmyzsh"

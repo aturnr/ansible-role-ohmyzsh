@@ -1,0 +1,33 @@
+---
+
+ - name: "Register stats of {{ plugin }}"
+   stat:
+     path: "/home/{{ user }}/.oh-my-zsh/custom/plugins/{{ plugin }}"
+   register: ps
+
+ - name: "Test {{ plugin }} exists"
+   fail:
+     msg: "{{ plugin }} doesn't exist"
+   when: ps.stat.exists is defined and not ps.stat.exists
+
+ - name: "Test {{ plugin }} is a directory"
+   fail:
+     msg: "{{ plugin }} isn't a directory"
+   when: ps.stat.isdir is defined and not ps.stat.isdir
+
+ - name: "Test zsh-syntax-highlighting directory mode"
+   fail:
+     msg: "{{ plugin }} mode is not 0750"
+   when: ps.stat.mode is defined and not ps.stat.mode == "0750"
+
+ - name: "Test {{ plugin }} directory owner"
+   fail:
+     msg: "{{ plugin }} owner is not {{ user }}"
+   when: ps.stat.owner is defined and not ps.stat.owner == user
+
+ - name: "Test {{ plugin }} directory group"
+   fail:
+     msg: "{{ plugin }} group is not {{ user }}"
+   when: ps.stat.group is defined and not ps.stat.group == user
+
+...

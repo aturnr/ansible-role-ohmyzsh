@@ -1,7 +1,7 @@
 ansible-role-ohmyzsh
 ====================
 
-[![Build Status](https://travis-ci.org/lineguy/ansible-role-ohmyzsh.svg?branch=master)](https://travis-ci.org/lineguy/ansible-role-ohmyzsh)
+[![Build Status](https://travis-ci.com/lineguy/ansible-role-ohmyzsh.svg?branch=master)](https://travis-ci.com/lineguy/ansible-role-ohmyzsh)
 [![Build Status](https://img.shields.io/badge/Version-1.0.0-green)](https://github.com/lineguy/ansible-role-ohmyzsh/releases/tag/1.0.0)
 
 A ansible role to install and configure oh-my-zsh.
